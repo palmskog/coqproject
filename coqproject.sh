@@ -42,7 +42,12 @@ for dep in ${DEPS[@]}; do
     path=$(pwd)
     popd > /dev/null
     echo "$dep found at $path"
-    LINE="-Q $path $dep"
+
+    namespace_var="$dep"_NAMESPACE
+    namespace_var=${namespace_var//./_}
+    namespace=${!namespace_var:="$dep"}
+
+    LINE="-Q $path $namespace"
     echo $LINE >> $COQPROJECT_TMP
 done
 
